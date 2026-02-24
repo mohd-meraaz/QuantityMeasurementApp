@@ -1,5 +1,4 @@
-package com.apps.qualitymanagementsystem;
-
+package com.apps.quantitymeasurementapp;
 public class Length {
 	private double value;
 	private LengthUnit len;
@@ -49,6 +48,16 @@ public class Length {
 		}
 		
 		return this.compare((Length)obj);
+	}
+	
+	@Override
+	public String toString() {
+		return "Length [value=" + this.value + ", len=" + len + "]";
+	}
+
+	public Length convertTo(LengthUnit unit) {
+		double result = (this.value*len.getConversion())/unit.getConversion();
+		return new Length(result,unit);
 	}
 	
 	public static void main(String args[]) {

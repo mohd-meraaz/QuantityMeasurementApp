@@ -1,4 +1,7 @@
-package com.apps.quantitymanagementsystem;
+package com.apps.quantitymeasurementapp;
+import com.apps.quantitymeasurementapp.Length.LengthUnit;
+import com.apps.quantitymeasurementapp.QuantityMeasurementApp.FeetEquality; 
+import com.apps.quantitymeasurementapp.QuantityMeasurementApp.InchEquality;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,11 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.apps.qualitymanagementsystem.Length;
-import com.apps.qualitymanagementsystem.QuantityMeasurementApp.FeetEquality;
-import com.apps.qualitymanagementsystem.QuantityMeasurementApp.InchEquality;
-
-class LengthTest {
+class QuantityMeasurementMainTest {
 	
 	Length len1;
 	Length len2;
@@ -188,5 +187,20 @@ class LengthTest {
 	    Length inch = new Length(36.0, Length.LengthUnit.INCHES);
 
 	    assertTrue(yard.equals(inch));
+	}
+	
+	@Test
+	public void convertFeetToInches() throws InvalidUnitMeasurementException {
+		Length lengthInches = QuantityMeasurementApp.demonstrateLengthConversion(3.0, LengthUnit.FEET, LengthUnit.INCHES);
+		Length expectedInches = new Length(36.0,Length.LengthUnit.INCHES);
+		assertTrue(QuantityMeasurementApp.demonstrateLengthEquality(lengthInches, expectedInches));
+	}
+	
+	@Test
+	public void convertYardToInchesUsingOverloadMethod() throws InvalidUnitMeasurementException {
+		Length lengthInYard = new Length(2.0, Length.LengthUnit.YARD);
+		Length lengthInInches = QuantityMeasurementApp.demonstrateLengthConversion(lengthInYard, LengthUnit.INCHES);
+		Length expected = new Length(72.0,Length.LengthUnit.INCHES);
+		assertTrue(QuantityMeasurementApp.demonstrateLengthEquality(lengthInInches, expected));
 	}
 }
