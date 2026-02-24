@@ -1,14 +1,15 @@
 package com.apps.quantitymeasurementapp;
 
-public enum LengthUnit{
-	FEET(12.0),
-	INCHES(1.0),
-	YARD(36.0),
-	CENTIMETERS(0.393701);
+public enum WeightUnit {
+	KILOGRAM(1000.0),
+	GRAM(1.0),
+	MILLIGRAM(0.001),
+	TONNE(1_000_000.0),
+	POUND(453.592);
 	
 	private double conversion;
 	
-	LengthUnit(double conversion){
+	WeightUnit(double conversion){
 		this.conversion = conversion;
 	}
 	
@@ -16,7 +17,7 @@ public enum LengthUnit{
 		return conversion;
 	}
 	
-	public double ConvertToBaseUnit(double value) {
+	public double convertToBaseUnit(double value) {
 		return ((value*this.getConversion())*100.0)/100.0;
 	}
 }

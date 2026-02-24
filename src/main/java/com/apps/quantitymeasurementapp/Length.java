@@ -15,12 +15,8 @@ public class Length {
 		this.len = len;
 	}
 	
-	private double ConvertToBaseUnit() {
-		return ((this.value*this.len.getConversion())*100.0)/100.0;
-	}
-	
-	public boolean compare(Length len) {
-		return Math.abs(this.ConvertToBaseUnit() - len.ConvertToBaseUnit()) < EPSILON;
+	public boolean compare(Length length) {
+		return Math.abs(this.len.ConvertToBaseUnit(this.value) - length.len.ConvertToBaseUnit(length.value)) < EPSILON;
 	}
 	
 	@Override
