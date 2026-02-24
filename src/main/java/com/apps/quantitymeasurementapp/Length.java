@@ -5,22 +5,7 @@ public class Length {
 	private LengthUnit len;
 	private static final double EPSILON = 0.01;
 	
-	public enum LengthUnit{
-		FEET(12.0),
-		INCHES(1.0),
-		YARD(36.0),
-		CENTIMETERS(0.393701);
-		
-		private double conversion;
-		
-		LengthUnit(double conversion){
-			this.conversion = conversion;
-		}
-		
-		public double getConversion() {
-			return conversion;
-		}
-	}
+	
 	
 	public Length(double value, LengthUnit len) {
 		if(Double.isNaN(value)) {
@@ -83,16 +68,16 @@ public class Length {
 	}
 	
 	public static void main(String args[]) {
-		Length len1 = new Length(1,Length.LengthUnit.INCHES);
-		Length len2 = new Length(1,Length.LengthUnit.INCHES);
+		Length len1 = new Length(1,LengthUnit.INCHES);
+		Length len2 = new Length(1,LengthUnit.INCHES);
 		System.out.println(len1.equals(len2));
 		
-		Length len3 = new Length(1.0,Length.LengthUnit.YARD);
-		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
+		Length len3 = new Length(1.0,LengthUnit.YARD);
+		Length len4 = new Length(36.0,LengthUnit.INCHES);
 		System.out.println(len3.equals(len4));
 		
-		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
-		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
+		Length len5 = new Length(100.0,LengthUnit.CENTIMETERS);
+		Length len6 = new Length(39.37,LengthUnit.INCHES);
 		System.out.println(len5.equals(len6));
 	}
 }
