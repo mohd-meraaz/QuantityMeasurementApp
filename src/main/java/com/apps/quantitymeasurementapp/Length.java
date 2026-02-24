@@ -1,4 +1,5 @@
 package com.apps.quantitymeasurementapp;
+
 public class Length {
 	private double value;
 	private LengthUnit len;
@@ -59,6 +60,13 @@ public class Length {
 		double result = (this.value*len.getConversion())/unit.getConversion();
 		return new Length(result,unit);
 	}
+	
+	public Length add(Length l1) {
+		l1 = l1.convertTo(this.len);
+		return new Length(this.value+l1.value,this.len);
+	}
+	
+
 	
 	public static void main(String args[]) {
 		Length len1 = new Length(1,Length.LengthUnit.INCHES);

@@ -203,4 +203,13 @@ class QuantityMeasurementMainTest {
 		Length expected = new Length(72.0,Length.LengthUnit.INCHES);
 		assertTrue(QuantityMeasurementApp.demonstrateLengthEquality(lengthInInches, expected));
 	}
+	
+	@Test
+	public void addFeetAndInches() throws InvalidUnitMeasurementException {
+		Length Feet = new Length(1.0,Length.LengthUnit.FEET);
+		Length Inches = new Length(24.0,Length.LengthUnit.INCHES);
+		Length ouput = QuantityMeasurementApp.convertFromBaseToTargetUnit(Feet, Inches);
+		Length result = new Length(3.0, Length.LengthUnit.FEET);
+		assertTrue(ouput.equals(result));
+	}
 }
