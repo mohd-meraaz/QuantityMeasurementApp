@@ -4,7 +4,6 @@ import com.apps.quantitymeasurementapp.Length.LengthUnit;
 
 public class QuantityMeasurementApp {
 
-    // Old approach (separate classes)
     public static class FeetEquality {
         private final double value;
 
@@ -49,13 +48,13 @@ public class QuantityMeasurementApp {
         return new FeetEquality(34.2).equals(new FeetEquality(34.2));
     }
 
-    // UC3 demonstrations
+    // Length equality
     public static boolean demonstrateLengthEquality(Length l1, Length l2) {
         return l1.equals(l2);
     }
 
     public static void demonstrateFeetInchComparison() {
-        System.out.println("1 Foot = 12 Inches: " +
+        System.out.println("1 Feet = 12 Inches: " +
                 new Length(1, LengthUnit.FEET)
                         .equals(new Length(12, LengthUnit.INCHES)));
 
@@ -63,11 +62,12 @@ public class QuantityMeasurementApp {
                 new Length(3, LengthUnit.FEET)
                         .equals(new Length(36, LengthUnit.INCHES)));
 
-        System.out.println("1 Inch == 1 Foot: " +
+        System.out.println("1 Inch == 1 Foot : " +
                 new Length(1, LengthUnit.INCHES)
                         .equals(new Length(1, LengthUnit.FEET)));
     }
 
+    // Conversion
     public static Length demonstrateLengthConversion(Length l1, LengthUnit unit)
             throws InvalidUnitMeasurementException {
         return l1.convertTo(unit);
@@ -78,21 +78,32 @@ public class QuantityMeasurementApp {
                                                      LengthUnit unit2)
             throws InvalidUnitMeasurementException {
         if (val == null) {
-            throw new InvalidUnitMeasurementException("Value cannot be null!");
+            throw new InvalidUnitMeasurementException("Value null!");
         }
         return new Length(val, unit1).convertTo(unit2);
     }
 
+    // Comparison
     public static boolean demonstrateLengthComparison(Length l1, Length l2) {
         return l1.compare(l2);
     }
 
+    // Addition (result in first unit)
     public static Length convertFromBaseToTargetUnit(Length l1, Length l2)
             throws InvalidUnitMeasurementException {
         if (l1 == null || l2 == null) {
-            throw new InvalidUnitMeasurementException("Null object not allowed!");
+            throw new InvalidUnitMeasurementException("Null Object!");
         }
         return l1.add(l2);
+    }
+
+    // Addition with target unit
+    public static Length demonstrateLengthAddition(Length l1, Length l2, LengthUnit unit)
+            throws InvalidUnitMeasurementException {
+        if (l1 == null || l2 == null) {
+            throw new InvalidUnitMeasurementException("Null Object!");
+        }
+        return l1.add(l2, unit);
     }
 
     public static void main(String[] args) throws InvalidUnitMeasurementException {
@@ -175,5 +186,53 @@ public class QuantityMeasurementApp {
                 convertFromBaseToTargetUnit(
                         new Length(5.0, LengthUnit.FEET),
                         new Length(-2.0, LengthUnit.FEET)));
+
+        System.out.println("Addition to Feet: " +
+                demonstrateLengthAddition(
+                        new Length(1.0, LengthUnit.FEET),
+                        new Length(36.0, LengthUnit.INCHES),
+                        LengthUnit.FEET));
+
+        System.out.println("Addition to Inches: " +
+                demonstrateLengthAddition(
+                        new Length(1.0, LengthUnit.FEET),
+                        new Length(12.0, LengthUnit.INCHES),
+                        LengthUnit.INCHES));
+
+        System.out.println("Addition to Yards: " +
+                demonstrateLengthAddition(
+                        new Length(1.0, LengthUnit.FEET),
+                        new Length(12.0, LengthUnit.INCHES),
+                        LengthUnit.YARD));
+
+        System.out.println("Addition to Yards: " +
+                demonstrateLengthAddition(
+                        new Length(1.0, LengthUnit.YARD),
+                        new Length(3.0, LengthUnit.FEET),
+                        LengthUnit.YARD));
+
+        System.out.println("Addition to Feet: " +
+                demonstrateLengthAddition(
+                        new Length(36.0, LengthUnit.INCHES),
+                        new Length(1.0, LengthUnit.YARD),
+                        LengthUnit.FEET));
+
+        System.out.println("Addition to Centimeters: " +
+                demonstrateLengthAddition(
+                        new Length(2.54, LengthUnit.CENTIMETERS),
+                        new Length(1.0, LengthUnit.INCHES),
+                        LengthUnit.CENTIMETERS));
+
+        System.out.println("Addition to Yards: " +
+                demonstrateLengthAddition(
+                        new Length(5.0, LengthUnit.FEET),
+                        new Length(0.0, LengthUnit.INCHES),
+                        LengthUnit.YARD));
+
+        System.out.println("Addition to Inches: " +
+                demonstrateLengthAddition(
+                        new Length(5.0, LengthUnit.FEET),
+                        new Length(-2.0, LengthUnit.INCHES),
+                        LengthUnit.INCHES));
     }
 }

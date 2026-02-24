@@ -208,8 +208,16 @@ class QuantityMeasurementMainTest {
 	public void addFeetAndInches() throws InvalidUnitMeasurementException {
 		Length Feet = new Length(1.0,Length.LengthUnit.FEET);
 		Length Inches = new Length(24.0,Length.LengthUnit.INCHES);
-		Length ouput = QuantityMeasurementApp.convertFromBaseToTargetUnit(Feet, Inches);
+		Length output = QuantityMeasurementApp.convertFromBaseToTargetUnit(Feet, Inches);
 		Length result = new Length(3.0, Length.LengthUnit.FEET);
-		assertTrue(ouput.equals(result));
+		assertTrue(output.equals(result));
+	}
+	
+	@Test void addFeetAndInchesWithTargetUnitInches() throws InvalidUnitMeasurementException {
+		Length Feet = new Length(1.0,Length.LengthUnit.FEET);
+		Length Inches = new Length(24.0,Length.LengthUnit.INCHES);
+		Length output = QuantityMeasurementApp.demonstrateLengthAddition(Feet, Inches, Length.LengthUnit.INCHES);
+		Length result = new Length(3.0, Length.LengthUnit.FEET);
+		assertTrue(output.equals(result));
 	}
 }

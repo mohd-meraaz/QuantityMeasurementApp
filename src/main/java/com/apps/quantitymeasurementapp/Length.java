@@ -66,7 +66,21 @@ public class Length {
 		return new Length(this.value+l1.value,this.len);
 	}
 	
-
+	public Length add(Length l1, LengthUnit unit) {
+		Length length1 = addAndConvert(l1,unit);
+		Length length2 = addAndConvert(this, len);
+		return length1.add(length2);
+	}
+	
+	private Length addAndConvert(Length length, LengthUnit targetUnit) {
+		double baseValue = length.value*length.len.getConversion();
+		double convertToBase = convertFromBaseToTargetUnit(baseValue, targetUnit);
+		return new Length(convertToBase,targetUnit);
+	}
+	
+	private double convertFromBaseToTargetUnit(double inches, LengthUnit targetUnit) {
+		return inches/targetUnit.getConversion();
+	}
 	
 	public static void main(String args[]) {
 		Length len1 = new Length(1,Length.LengthUnit.INCHES);
