@@ -4,29 +4,29 @@ public class QuantityMeasurementApp {
 	
 	//generic method
 	public static <U extends IMeasurable> boolean demonstrateEquality(Quantity<U> q1, Quantity<U> q2) throws InvalidUnitMeasurementException {
-		if(q1==null || q2 ==null) {
-			throw new InvalidUnitMeasurementException("Null Object!");
+		if(q1==null || q2 ==null || (q1.getUnit().getClass()!=q2.getUnit().getClass())) {
+			throw new InvalidUnitMeasurementException("Null Object or illegealarguement exception!");
 		}
 		return q1.equals(q2);
 	}
 	
 	public static <U extends IMeasurable> Quantity<U> demonstrateConversion(Quantity<U> q, U targetUnit) throws InvalidUnitMeasurementException{
-		if(q==null || targetUnit ==null) {
+		if(q==null || targetUnit ==null ) {
 			throw new InvalidUnitMeasurementException("Null Object!");
 		}
 		return new Quantity<>(q.convertTo(targetUnit), targetUnit);
 	}
 	
 	public static <U extends IMeasurable> Quantity<U> demonstrateAddition(Quantity<U> q1, Quantity<U> q2) throws InvalidUnitMeasurementException{
-		if(q1==null || q2 ==null) {
-			throw new InvalidUnitMeasurementException("Null Object!");
+		if(q1==null || q2 ==null || (q1.getUnit().getClass()!=q2.getUnit().getClass())) {
+			throw new InvalidUnitMeasurementException("Null Object or illegealarguement exception!");
 		}
 		return q1.add(q2);
 	}
 	
 	public static <U extends IMeasurable> Quantity<U> demonstrateAddition(Quantity<U> q1, Quantity<U> q2, U targetUnit) throws InvalidUnitMeasurementException{
-		if(q1==null || q2 ==null || targetUnit==null) {
-			throw new InvalidUnitMeasurementException("Null Object!");
+		if(q1==null || q2 ==null || targetUnit==null || (q1.getUnit().getClass()!=q2.getUnit().getClass())) {
+			throw new InvalidUnitMeasurementException("Null Object or illegealarguement exception!");
 		}
 		return q1.add(q2, targetUnit);
 	}

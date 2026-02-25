@@ -4,10 +4,6 @@ public enum WeightUnit implements IMeasurable{
 	KILOGRAM(1.0),
     // 1 Gram = 0.001 Kilograms
     GRAM(0.001),
-    // 1 Milligram = 0.000001 Kilograms
-    MILLIGRAM(0.000001),
-    // 1 Tonne = 1000 Kilograms
-    TONNE(1000.0),
     // 1 Pound = 0.453592 Kilograms
     POUND(0.453592);
 	
