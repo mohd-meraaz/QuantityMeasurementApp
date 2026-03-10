@@ -21,6 +21,8 @@ class QuantityMeasurementMainTest<U extends IMeasurable> {
 	Quantity<VolumeUnit> v1;
 	Quantity<VolumeUnit> v2;
 	
+	
+	
 	@Test
     public void testEquality_SameUnitAndValue_ShouldReturnTrue() throws InvalidUnitMeasurementException {
         Quantity<LengthUnit> feet1 = new Quantity<>(10.0, LengthUnit.FEET);
@@ -211,6 +213,8 @@ class QuantityMeasurementMainTest<U extends IMeasurable> {
 	    assertTrue(output.equals(result));
 	}
 
+
+
 	@Test
 	void addFeetAndInchesWithTargetUnitInches() throws InvalidUnitMeasurementException {
 		Quantity<LengthUnit> Feet = new Quantity<>(1.0, LengthUnit.FEET);
@@ -220,7 +224,6 @@ class QuantityMeasurementMainTest<U extends IMeasurable> {
 	    Quantity<LengthUnit> result = new Quantity<>(3.0, LengthUnit.FEET);
 	    assertTrue(output.equals(result));
 	}
-	
 
 
 	//Verifies that Quantity(1.0, KILOGRAM).equals(Quantity(1.0, KILOGRAM)) returns true.
@@ -1021,5 +1024,4 @@ class QuantityMeasurementMainTest<U extends IMeasurable> {
         assertTrue(q1.equals(new Quantity<>(10.0, LengthUnit.FEET)));
         assertTrue(q2.equals(new Quantity<>(5.0, LengthUnit.FEET)));
     }
-	
 }

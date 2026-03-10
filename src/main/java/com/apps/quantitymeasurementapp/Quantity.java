@@ -1,5 +1,7 @@
 package com.apps.quantitymeasurementapp;
 
+import java.util.function.DoubleBinaryOperator;
+
 public class Quantity<U extends IMeasurable> {
 	private double value;
 	private U unit;
@@ -34,46 +36,47 @@ public class Quantity<U extends IMeasurable> {
 	
 	//add
 	public Quantity<U> add(Quantity<U> other){
-		double part1 = this.convertTo(this.unit);
-		double part2 = other.convertTo(this.unit);
-		return new Quantity<>((part1+part2),this.unit);
+		this.validateArithmeticOperands(other, null, false);
+		double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
+	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
+		return new Quantity<>(finalResult,this.unit);
 	}
 	//add with target unit
 	public Quantity<U> add(Quantity<U> other, U targetUnit){
-		double part1 = this.convertTo(targetUnit);
-		double part2 = other.convertTo(targetUnit);
-		return new Quantity<>((part1+part2),targetUnit);
+		this.validateArithmeticOperands(other, targetUnit, true);
+		double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
+	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+		return new Quantity<>(finalResult,targetUnit);
 	}
 	
 	//subtract method
 	public Quantity<U> subtract(Quantity<U> other){
-		double part1 = this.unit.convertToBaseUnit(this.value);
-		double part2 = other.unit.convertToBaseUnit(other.value);
-		
-		double baseResult = part1-part2;
-		double finalResult = this.unit.convertFromBaseUnit(baseResult);
+		this.validateArithmeticOperands(other, null, false);
+		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
+	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
 		return new Quantity<>(finalResult,this.unit);
 	}
 	
 	//subtract method for specific unit
 	public Quantity<U> subtract(Quantity<U> other, U targetUnit){
-		double part1 = this.unit.convertToBaseUnit(this.value);
-		double part2 = other.unit.convertToBaseUnit(other.value);
-		
-		double baseResult = part1-part2;
-		double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+		this.validateArithmeticOperands(other, targetUnit, true);
+		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
+	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+	    System.out.println(finalResult);
 		return new Quantity<>(finalResult,targetUnit);
 	}
 	
 	//division
 	public double divide(Quantity<U> other){
-		double part1 = this.unit.convertToBaseUnit(this.value);
-		double part2 = other.unit.convertToBaseUnit(other.value);
-		if (part2 == 0) {
-	        throw new ArithmeticException("Cannot divide by zero");
-		}
-		double baseResult = part1/part2;
-		return baseResult;
+		this.validateArithmeticOperands(other, null, false);
+		return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
+	}
+	
+	public double divide(Quantity<U> other, U targetUnit){
+		this.validateArithmeticOperands(other, targetUnit, true);
+		double baseResult = performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
+	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+	    return finalResult;
 	}
 	
 	//equals
@@ -103,22 +106,41 @@ public class Quantity<U extends IMeasurable> {
 	public String toString() {
 		return "Quantity [value=" + value + ", unit=" + unit + "]";
 	}
+	private void validateArithmeticOperands(Quantity<U> other, U targetUnit, boolean targetUnitRequired) {
+		if (other == null)
+            throw new IllegalArgumentException("Operand cannot be null");
 
-	public static void main(String args[]) {
-		Quantity<LengthUnit> unit1 = new Quantity<>(3.0,LengthUnit.FEET);
-		System.out.println(unit1.convertTo(LengthUnit.INCHES));
+        if (this.unit.getClass() != other.unit.getClass())
+            throw new IllegalArgumentException("Incompatible unit categories");
+
+        if (!Double.isFinite(this.value) || !Double.isFinite(other.value))
+            throw new IllegalArgumentException("Values must be finite");
+
+        if (targetUnitRequired && targetUnit == null)
+            throw new IllegalArgumentException("Target unit cannot be null");
+	}
+	
+	private double performBaseArithmetic(Quantity<U> other,  ArithmeticOperation operation) {
+		double base1 = this.unit.convertToBaseUnit(this.value);
+		double base2 = other.unit.convertToBaseUnit(other.value);
+    	return operation.compute(base1, base2);
+	}
+	private enum ArithmeticOperation{
+		ADD((a,b)-> a+b),
+		SUBTRACT((a,b)-> a-b),
+		DIVIDE((a,b)-> {
+			if(b==0)throw new ArithmeticException();
+			return a/b;
+		});
 		
-		Quantity<LengthUnit> unit2 = new Quantity<>(48.0,LengthUnit.INCHES);
-		Quantity<LengthUnit> unit3 = new Quantity<>(24.0,LengthUnit.INCHES);
-		System.out.println(unit2.add(unit3));
+		private final DoubleBinaryOperator operation;
 		
-		System.out.println(unit2.add(unit3, LengthUnit.FEET));
+		ArithmeticOperation(DoubleBinaryOperator operation) {
+			this.operation = operation;
+		}
 		
-		//subtract
-		System.out.println(unit1.subtract(unit2));
-		System.out.println(unit1.subtract(unit2,LengthUnit.INCHES));
-		
-		//division
-		System.out.println(unit1.divide(unit3));
+		public double compute(double thisBase, double otherBase) {
+			return operation.applyAsDouble(thisBase, otherBase);
+		}
 	}
 }
