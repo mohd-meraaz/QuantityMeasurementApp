@@ -201,5 +201,32 @@ public class QuantityMeasurementApp {
 
         Quantity<LengthUnit> result = q1.subtract(q2);
         System.out.println(result.equals(new Quantity<>(5.0, LengthUnit.FEET)));
+        
+        //uc14
+        Quantity<TemperatureUnit> t1 = new Quantity<TemperatureUnit>(37.0, TemperatureUnit.CELSIUS);
+        Quantity<TemperatureUnit> t2 = new Quantity<TemperatureUnit>(98.6, TemperatureUnit.FAHRENHEIT);
+        
+        //equality
+        System.out.println(demonstrateEquality(t1,t2));
+        System.out.println(demonstrateEquality(new Quantity<>(0.0, TemperatureUnit.CELSIUS),(new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT))));
+        System.out.println(demonstrateEquality(new Quantity<>(273.15, TemperatureUnit.KELVIN),(new Quantity<>(0.0, TemperatureUnit.CELSIUS))));
+        System.out.println(demonstrateEquality(new Quantity<>(212.0, TemperatureUnit.FAHRENHEIT),(new Quantity<>(100.0, TemperatureUnit.CELSIUS))));
+        //conversion
+        System.out.println(demonstrateConversion(t1, TemperatureUnit.FAHRENHEIT));
+        System.out.println(demonstrateConversion(new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT), TemperatureUnit.CELSIUS));
+        System.out.println(demonstrateConversion(new Quantity<>(273.15, TemperatureUnit.KELVIN), TemperatureUnit.CELSIUS));
+        
+        //Unsupported Operations
+        try {
+        	System.out.println((new Quantity<>(100.0, TemperatureUnit.CELSIUS).subtract(new Quantity<>(50.0, TemperatureUnit.CELSIUS))));
+            System.out.println((new Quantity<>(100.0, TemperatureUnit.CELSIUS).add(new Quantity<>(50.0, TemperatureUnit.CELSIUS))));
+            System.out.println((new Quantity<>(100.0, TemperatureUnit.CELSIUS).divide(new Quantity<>(50.0, TemperatureUnit.CELSIUS))));
+        }
+        catch(UnsupportedOperationException e) {
+        	System.out.println(e.getMessage());
+        }
+        
+        System.out.println(demonstrateEquality(new Quantity<>(100.0, TemperatureUnit.CELSIUS),(new Quantity<>(100.0, LengthUnit.FEET))));
+        System.out.println(new Quantity<>(100.0, TemperatureUnit.CELSIUS).equals(new Quantity<>(100.0, LengthUnit.FEET)));
 	}
 }
