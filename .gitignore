@@ -1,6 +1,7 @@
 .DS_Store
-	.gitattributes
-	.metadata/HELP.md
+.gitattributes
+.metadata/
+
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -19,7 +20,7 @@ target/
 .idea
 *.iws
 *.iml
-*.ipr
+*.ip
 
 ### NetBeans ###
 /nbproject/private/
