@@ -1,29 +1,35 @@
-
-/.metadata/
-# Eclipse specific files
-
-.metadata/
-
-.settings/
-
-.classpath
-
-.project
-
-# Java build output
-
-bin/
-
-target/
-
-# Logs
-
-*.log
-
-# OS generated files
-
 .DS_Store
+	.gitattributes
+	.metadata/HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-Thumbs.db
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-*.class
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
