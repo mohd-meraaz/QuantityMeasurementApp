@@ -1,6 +1,5 @@
 package com.app.quantitymeasurementapp.repository;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,23 +11,26 @@ import org.springframework.stereotype.Repository;
 import com.app.quantitymeasurementapp.model.QuantityMeasurementEntity;
 
 @Repository
-public interface QuantityMeasurentRepository extends JpaRepository<QuantityMeasurementEntity,Long> {
+public interface QuantityMeasurementRepository extends JpaRepository<QuantityMeasurementEntity, Long>{
+	// Find all measurements by operation type
 	List<QuantityMeasurementEntity> findByOperation(String operation);
 
+	// Find all measurements by measurement type
 	List<QuantityMeasurementEntity> findByThisMeasurementType(String measurementType);
 
-	
+	// Find measurements created after specific date
 	List<QuantityMeasurementEntity> findByCreatedAtAfter(LocalDateTime date);
 
-	
-	@Query("SELECT e FROM QuantityMeasurementEntity e WHERE e.operation = : operation "+
+	// Custom JPQL query for complex operations
+	@Query("SELECT e FROM QuantityMeasurementEntity e WHERE e. operation = : operation "+
 	"AND e. isError = false")
 	List<QuantityMeasurementEntity> findSuccessfulOperations(
 	@Param("operation") String operation
-
 	);
-
+	
+	// Count successful operations
 	long countByOperationAndIsErrorFalse(String operation);
 
+	// Find measurements with errors
 	List<QuantityMeasurementEntity> findByIsErrorTrue();
 }

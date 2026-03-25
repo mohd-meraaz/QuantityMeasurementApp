@@ -1,17 +1,17 @@
 package com.app.quantitymeasurementapp.unit;
 
-public enum LengthUnit implements IMeasurable{
-	FEET(1.0),
-	INCHES(1.0/12.0),
-	YARD(3.0),
-	CENTIMETERS(0.0328084);
+public enum VolumeUnit implements IMeasurable{
+	
+	LITRE(1.0),
+	MILLILITRE(0.001),
+	GALLON(3.78541);
 	
 	private double conversion;
 	
-	LengthUnit(double conversion){
+	private VolumeUnit(double conversion) {
 		this.conversion = conversion;
 	}
-	
+
 	@Override
 	public double getConversionFactor() {
 		return conversion;

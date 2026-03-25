@@ -1,67 +1,58 @@
 package com.app.quantitymeasurementapp.entity;
 
-
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.quantitymeasurementapp.model.*;
 import com.app.quantitymeasurementapp.model.QuantityMeasurementEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public @Data class QuantityMeasurementDTO {
-public double thisValue;
-public String thisUnit;
-public String thisMeasurementType;
-public double thatValue;
-public String thatUnit;
-public String thatMeasurementType;
-public String operation;
-public String resultString;
-public double resultValue;
-public String resultUnit;
-public String resultMeasurementType;
-public String errorMessage;
+public class QuantityMeasurementDTO {
+	public double thisValue;
+	public String thisUnit;
+	public String thisMeasurementType;
+	public double thatValue;
+	public String thatUnit;
+	public String thatMeasurementType;
+	public String operation;
+	public double resultValue;
+	public String resultUnit;
+	public String resultString;
+	public String resultMeasurementType;
+	@JsonProperty("error")
+	public boolean error;
+	public String errorMessage;
+	
 
-@JsonProperty("error")
-public boolean error;
-
-	public static QuantityMeasurementDTO from(QuantityMeasurementEntity entity) {
-		return new QuantityMeasurementDTO(entity.getThisValue(),entity.getThisUnit(),entity.getThisMeasurementType(),entity.getThatValue(),entity.getThatUnit(),entity.getThatMeasurementType(),
-				entity.getOperation(),entity.getResultString(),entity.getResultValue(),entity.getResultUnit(),entity.getResultMeasurementType(),entity.getErrorMessage(),entity.isError());
+	public QuantityMeasurementDTO from(QuantityMeasurementEntity entity) {
+		return new QuantityMeasurementDTO(entity.getThisValue(), entity.getThisUnit(), entity.getThisMeasurementType(), entity.getThatValue(), entity.getThatUnit(), entity.getThatMeasurementType(), entity.getOperation(), entity.getResultValue(), entity.getResultUnit(), entity.getResultString(), entity.getResultMeasurementType(),  entity.isError(), entity.getErrorMessage());
 	}
- 
+	
 	public QuantityMeasurementEntity toEntity() {
-		QuantityDTO thisQuantityDTO = new QuantityDTO(this.thisValue,this.thisUnit,this.thisMeasurementType);
-		QuantityDTO thatQuantityDTO = new QuantityDTO(this.thatValue,this.thatUnit,this.thatMeasurementType);
-	    if(error) {
-	    	return  new QuantityMeasurementEntity(thisQuantityDTO, thatQuantityDTO, this.operation,this.errorMessage,this.error);
-	    }
-	   QuantityDTO result = new QuantityDTO(this.resultValue,this.resultUnit,this.resultMeasurementType);
-	   
-	   return new QuantityMeasurementEntity(thisQuantityDTO,thatQuantityDTO,this.operation,result); 
+		if(error) {
+			return new QuantityMeasurementEntity(thisValue, thisUnit, thisMeasurementType, thatValue, thatUnit, thatMeasurementType, operation, errorMessage, error);
+		}
+		return new QuantityMeasurementEntity(thisValue, thisUnit, thisMeasurementType, thatValue, thatUnit, thatMeasurementType, operation, resultValue, resultUnit, resultMeasurementType, resultString, error, errorMessage);
 	}
 	
-	public static List<QuantityMeasurementDTO> fromList(List<QuantityMeasurementEntity> list){
-		List<QuantityMeasurementDTO> conversion = new ArrayList<>();
-		for(QuantityMeasurementEntity a : list) {
-			conversion.add(from(a));
+	public List<QuantityMeasurementDTO> fromList(List<QuantityMeasurementEntity> list){ 		
+		List<QuantityMeasurementDTO> compute = new ArrayList<>();
+		for(QuantityMeasurementEntity entity:list) {
+			compute.add(from(entity));
 		}
-		return conversion;
+		return compute;
 	}
-	
-	public static List<QuantityMeasurementEntity> toEntityList(List<QuantityMeasurementDTO> list){
-		List<QuantityMeasurementEntity> conversion = new ArrayList<>();
-		for(QuantityMeasurementDTO a : list) {
-			conversion.add(a.toEntity());
+	public List<QuantityMeasurementEntity> toEntityList(List<QuantityMeasurementDTO> list){
+		List<QuantityMeasurementEntity> compute = new ArrayList<>();
+		for(QuantityMeasurementDTO entity:list) {
+			compute.add(entity.toEntity());
 		}
-		return conversion;
+		return compute;
 	}
 }

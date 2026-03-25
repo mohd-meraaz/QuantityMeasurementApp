@@ -1,54 +1,91 @@
 package com.app.quantitymeasurementapp.exception;
 
-import java.util.logging.Logger;
-
-import java.util.stream.Collectors;
 import java.time.LocalDateTime;
-import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-	private static final Logger logger = Logger.getLogger(GlobalExceptionHandler. class.getName());
 	
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<ErrorResponse> handleRunTimeException(RuntimeException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		errro.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errro);
+	}
 	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+	@ExceptionHandler(CategoryMismatchException.class)
+	public ResponseEntity<ErrorResponse> handleCategoryMismatchException(CategoryMismatchException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.BAD_REQUEST.value());
+		errro.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro);
+	}	
 	
-	logger.warning(String. format( "The Exception is %s", ex. getMessage()));
-
-	List<ObjectError> errorList = ex.getBindingResult().getAllErrors();
-	List<String> errMesg = errorList.stream()
-	.map(objErr -> objErr.getDefaultMessage())
-	.collect(Collectors.toList());
-	ErrorResponse error = new ErrorResponse();
-	error.timestamp = LocalDateTime.now();
-	error.status = HttpStatus.BAD_REQUEST.value();
-	error.error = "Quantity Measurement Error";
-	error.message = String. join("; ", errMesg);
-	logger.warning("Handling QuantityMeasurementException: " + ex.getMessage() +
-	" for request path: " + error.path);
-	return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	@ExceptionHandler(InvalidUnitException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidUnitException(InvalidUnitException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+		errro.setError(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errro);
+	}
+	
+	@ExceptionHandler(InvalidUnitMeasurementException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidUnitMeasurementException(InvalidUnitMeasurementException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+		errro.setError(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errro);
+	}
+	
+	@ExceptionHandler(QuantityMeasurementException.class)
+	public ResponseEntity<ErrorResponse> handleQuantityMeasurementException(QuantityMeasurementException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.BAD_REQUEST.value());
+		errro.setError("Quantity Measurement Error");
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro);
+	}
+	
+	@ExceptionHandler(UnsupportedOperationException.class)
+	public ResponseEntity<ErrorResponse> handleUnsupportedOperationException(UnsupportedOperationException e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.BAD_REQUEST.value());
+		errro.setError("This operation not supported yet!");
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro);
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex,WebRequest request){
-
-	ErrorResponse error = new ErrorResponse();
-	error.timestamp = LocalDateTime.now();
-	error.status = HttpStatus. INTERNAL_SERVER_ERROR. value();
-	error.error = "Internal Server Error";
-	error.message = ex.getMessage();
-	error.path = request.getDescription( false). replace( "uri=", "");
-	logger.severe("Handling global exception: " + ex.getMessage() + " for request path: " + error.path);
-	return new ResponseEntity<>(error, HttpStatus. INTERNAL_SERVER_ERROR);
+	public ResponseEntity<ErrorResponse> handle(Exception e, HttpServletRequest request){
+		ErrorResponse errro = new ErrorResponse();
+		errro.setDateTime(LocalDateTime.now());
+		errro.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		errro.setError("Internal Server error!");
+		errro.setMessage(e.getMessage());
+		errro.setPath(request.getRequestURL().toString());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errro);
 	}
 }
