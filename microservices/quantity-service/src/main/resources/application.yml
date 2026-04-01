@@ -1,0 +1,41 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: QUANTITY-SERVICE
+  
+  # H2 Database
+  datasource:
+    url: jdbc:h2:mem:quantityservice
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # JPA Settings
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Service Discovery (Eureka)
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+
+# Monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
