@@ -5,16 +5,11 @@ spring:
   application:
     name: QUANTITY-SERVICE
   
-  # H2 Database
   datasource:
-    url: jdbc:h2:mem:quantityservice
-    driverClassName: org.h2.Driver
-    username: sa
-    password: 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    url: jdbc:mysql://localhost:3306/quantityservice
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Meraaz@8904
 
   # JPA Settings
   jpa:
