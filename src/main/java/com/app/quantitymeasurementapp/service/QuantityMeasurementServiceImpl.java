@@ -80,7 +80,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 		// 4. save to repository
 		QuantityMeasurementEntity entity = new QuantityMeasurementEntity(thisQuantityDTO.value, thisQuantityDTO.unit,
 				thisQuantityDTO.measurementType, thatQuantityDTO.value, thatQuantityDTO.unit,
-				thatQuantityDTO.measurementType, Operation.CONVERT.name(), value1, thisQuantityDTO.unit,
+				thatQuantityDTO.measurementType, Operation.CONVERT.name(), value1, thatQuantityDTO.unit,
 				thisQuantityDTO.measurementType, "null", false, "null");
 
 		repository.save(entity);

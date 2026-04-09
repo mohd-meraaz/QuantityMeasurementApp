@@ -24,7 +24,7 @@ public class QuantityDTO {
 	private static final Logger logger = Logger.getLogger(QuantityDTO.class.getName());
 
 	enum LengthUnit implements IMeasurableUnit {
-		FEET, INCHES, YARD, CENTIMETRE;
+		FEET, INCHES, YARD, CENTIMETERS;
 
 		@Override
 		public String getUnitName() {
@@ -39,7 +39,7 @@ public class QuantityDTO {
 	}
 
 	enum WeightUnit implements IMeasurableUnit {
-		KG, GRAM, POUND;
+		KILOGRAM, GRAM, POUND;
 
 		@Override
 		public String getUnitName() {
@@ -52,8 +52,8 @@ public class QuantityDTO {
 		}
 	}
 
-	enum VolumneUnit implements IMeasurableUnit {
-		MILILITRE, LITRE, GALLON;
+	enum VolumeUnit implements IMeasurableUnit {
+		MILLILITER, LITRE, GALLON;
 
 		@Override
 		public String getUnitName() {
@@ -84,7 +84,7 @@ public class QuantityDTO {
 	public double value;
 
 	@NotNull(message = "Unit cannot be null")
-	@Schema(example = "FEET", allowableValues = { "FEET", "INCHES", "YARDS", "CENTIMETERS", "LITRE", "MILLILITER",
+	@Schema(example = "FEET", allowableValues = { "FEET", "INCHES", "YARD", "CENTIMETERS", "LITRE", "MILLILITER",
 			"GALLON", "MILLIGRAM", "GRAM", "KILOGRAM", "POUND", "TONNE", "CELSIUS", "FAHRENHEIT" })
 	public String unit;
 
@@ -103,7 +103,7 @@ public class QuantityDTO {
 				LengthUnit.valueOf(unit);
 				break;
 			case "VolumeUnit":
-				VolumneUnit.valueOf(unit);
+				VolumeUnit.valueOf(unit);
 				break;
 			case "WeightUnit":
 				WeightUnit.valueOf(unit);
