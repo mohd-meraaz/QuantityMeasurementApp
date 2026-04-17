@@ -123,7 +123,7 @@ class QuantityMeasurementAppApplicationTests {
         ResponseEntity<QuantityMeasurementDTO> result = controller.performConversion(qt);
 
         assertEquals(12.0, result.getBody().resultValue, 0.01);
-        assertEquals("FEET", result.getBody().resultUnit);
+        assertEquals("INCHES", result.getBody().resultUnit);
         assertEquals("LengthUnit", result.getBody().resultMeasurementType);
     }
 
@@ -173,7 +173,7 @@ class QuantityMeasurementAppApplicationTests {
 
     @Test
     void testService_Divide_Success() {
-        QuantityInputDTO qt = new QuantityInputDTO(new QuantityDTO(2.0, "LITRE","VolumeUnit"), new QuantityDTO(1000.0, "MILLILITRE","VolumeUnit"), null);
+        QuantityInputDTO qt = new QuantityInputDTO(new QuantityDTO(2.0, "LITRE","VolumeUnit"), new QuantityDTO(1000.0, "MILLILITER","VolumeUnit"), null);
 
         double result = controller.performDivision(qt).getBody().resultValue;
         assertEquals(2.0, result, 0.01);
@@ -223,7 +223,7 @@ class QuantityMeasurementAppApplicationTests {
                 ).getBody().isError());
         
         assertFalse(controller.performComparison(
-                new QuantityInputDTO(new QuantityDTO(1.0, "LITRE","VolumeUnit"), new QuantityDTO(1000.0, "MILLILITRE","VolumeUnit"), null)
+                new QuantityInputDTO(new QuantityDTO(1.0, "LITRE","VolumeUnit"), new QuantityDTO(1000.0, "MILLILITER","VolumeUnit"), null)
                 ).getBody().isError());
     }
 

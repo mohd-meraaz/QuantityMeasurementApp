@@ -62,4 +62,4 @@ springdoc:
 # 6. Custom App Config ( THIS IS IMPORTANT)
 app:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://quantity-measurement-app-frontend-ruby.vercel.app}
